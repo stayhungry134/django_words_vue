@@ -16,8 +16,8 @@ function change_theme(item) {
     <div class="container h-100 d-flex justify-content-between align-items-center">
       <ul class="tab row nav nav-pills w-75 h-100">
         <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/')">Home</li>
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/word')">Word</li>
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/article')">Article</li>
+        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/words/ebbinghaus')">Word</li>
+        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/reading/article')">Article</li>
         <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('')">About</li>
       </ul>
       <div class="change_theme dropdown">
