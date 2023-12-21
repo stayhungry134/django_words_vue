@@ -4,7 +4,7 @@
 
 <template>
   <div class="container d-flex justify-content-around mx-auto row">
-      <div class="card col-3 m-5 p-0" @click="$router.push('/word')">
+      <div class="card col-3 m-5 p-0" @click="$router.push('/words/ebbinghaus')">
           <img src="../../assets/image/word.jpg" class="card-img-top" alt="...">
           <div class="card-body h2 text-center">
               单词
@@ -13,7 +13,7 @@
       <div class="card col-3 m-5 p-0">
         <img src="../../assets/image/article.jpg" class="card-img-top" alt="...">
         <div class="card-body h2 text-center">
-            文章
+            读
         </div>
       </div>
   </div>

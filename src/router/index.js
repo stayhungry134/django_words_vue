@@ -6,16 +6,23 @@ import {
 const routes = [{
     path: '/',
     component: () => import('~/layout/index.vue'),
-    children: [{
-        path: '/',
-        component: () => import('~/pages/ebbinghaus/index.vue'),
-    }, {
-      path: '/word',
-        component: () => import('~/pages/ebbinghaus/word.vue')
-    }, {
-      path: '/article',
-        component: () => import('~/pages/ebbinghaus/article.vue')
-    }]
+    children: [
+        {
+            path: '/',
+            component: () => import('~/pages/home/index.vue'),
+        },
+        {
+          path: '/words/ebbinghaus',
+            component: () => import('~/pages/words/ebbinghaus.vue')
+        },
+        {
+            path: '/words/list',
+            component: () => import('~/pages/words/list.vue')
+        },
+        {
+          path: '/reading/article',
+            component: () => import('~/pages/reading/article.vue')
+        }]
 }, {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
