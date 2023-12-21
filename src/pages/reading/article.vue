@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive} from "vue";
 let article = reactive({})
 let api = '/word_api/ebbinghaus/article/3/'
 function get_article() {

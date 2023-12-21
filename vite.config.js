@@ -8,7 +8,8 @@ import path from 'path'
 let api_online = false
 
 const online_url = 'http://word.stayhungry134.com:8000/word_api'
-const local_url = 'http://192.168.2.12:8000/word_api'
+// const local_url = 'http://192.168.2.12:8000/word_api'
+const local_url = 'http://127.0.0.1:8001/word_api'
 
 // 根据api_online的值，选择api_url
 let api_url = local_url

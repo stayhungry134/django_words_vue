@@ -1,6 +1,5 @@
 <script setup>
 import {useColorStore} from "~/store/counter";
-import { onMounted, ref } from "vue";
 
 // 设置背景色
 const color = useColorStore();

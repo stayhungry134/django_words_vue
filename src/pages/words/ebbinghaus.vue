@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import { useColorStore } from "~/store/counter";
 import { hexToRgb } from "~/assets/ts/utils";
 
