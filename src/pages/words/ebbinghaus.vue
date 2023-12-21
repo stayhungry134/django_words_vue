@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onMounted, reactive, ref} from "vue";
 import { useColorStore } from "~/store/counter";
+import { hexToRgb } from "~/assets/ts/utils";
 
 let words = ref(null)
 // 获取今天的日期并格式化
@@ -15,14 +16,6 @@ let api = '/word_api/ebbinghaus/words/'
 
 // 主题颜色
 const color = useColorStore();
-function hexToRgb(hex, opacity) {
-  let rgb = [];
-  for (let i = 1; i < 7; i += 2) {
-    rgb.push(parseInt("0x" + hex.slice(i, i + 2)));
-  }
-  rgb.push(opacity);
-  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${rgb[3]})`;
-}
 const word_bg = computed(() => {
   return hexToRgb(color.theme_color, 0.2)
 })
@@ -91,7 +84,7 @@ function play_audio(type, word) {
               <div class="row">
                   <div class="col-1 fst-italic">No.</div>
                   <div class="col-4 fst-italic">Word</div>
-                  <div class="col-7 fst-italic">Definition</div>
+                  <div class="col-7 fst-italic">Meaning</div>
               </div>
           </div>
           <div class="col-6">
@@ -302,10 +295,6 @@ function play_audio(type, word) {
 
     > .row:last-child {
       border-bottom: none;
-    }
-
-    .even {
-      background-color: #e9f8f5;
     }
 
     .num, .word {
