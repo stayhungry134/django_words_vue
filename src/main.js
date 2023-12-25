@@ -25,6 +25,6 @@ app.use(pinia)
 import '~/assets/css/scss/global.scss'
 
 // 引入全局ts
-import '~/assets/ts/common.ts'
+import '@/assets/ts/common.ts'
 
 app.mount('#app')
