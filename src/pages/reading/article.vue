@@ -1,8 +1,10 @@
 <script setup>
-import {onMounted, ref, reactive} from "vue";
+import {onMounted, ref, reactive, computed} from "vue";
+import {useColorStore} from "~/store/counter";
 import WordCard from "@/components/reading/word-card.vue";
+import {hexToRgb} from "~/assets/ts/utils";
 
-// 请求文章
+/** 请求文章*/
 let article = reactive({})
 let api = '/word_api/reading/article/'
 
@@ -64,11 +66,11 @@ const show_word_card = (e, word) => {
   <div class="article container row mt-5 mx-auto">
     <!--    当前文章-->
     <div ref="current_article" class="col-8  position-relative">
-      <!--      文章标题-->
+<!--      文章标题-->
       <div class="title">
         <h2 class="h2">{{ article.title }}</h2>
       </div>
-      <!--      创建、阅读日期-->
+<!--      创建、阅读日期-->
       <div class="date d-flex">
         <div class="col-4">
           创建日期：<span class="text-info">{{ article.init_date }}</span>
@@ -77,7 +79,7 @@ const show_word_card = (e, word) => {
           上次阅读日期：<span class="text-info">{{ article.last_review }}</span>
         </div>
       </div>
-      <!--      文章内容-->
+<!--      文章内容-->
       <div class="content">
         <div class="content d-flex flex-wrap my-4"
              v-for="paragraph in article.content">
@@ -88,13 +90,16 @@ const show_word_card = (e, word) => {
           </template>
         </div>
       </div>
-      <!--      单词卡片-->
+<!--      完成阅读-->
+      <div class="complete-reading d-flex justify-content-center my-5">
+        <el-button type="primary">完成阅读</el-button>
+      </div>
+<!--      单词卡片-->
       <word-card class="position-absolute"
                  @hide_card="word_card.show = false"
                  v-show="word_card.show"
                  :style="word_card.style"
                  :word="word_card.word"></word-card>
-
     </div>
     <!--    其他文章-->
     <div class="col-4 ps-4">
@@ -109,7 +114,7 @@ const show_word_card = (e, word) => {
 }
 
 .article {
-  position: relative;
+  padding-bottom: 100px;
 
   .date {
   }

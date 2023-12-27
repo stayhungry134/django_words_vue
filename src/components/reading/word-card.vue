@@ -20,6 +20,15 @@ watch(() => props.word, async (new_word) => {
   }
 })
 
+/** 点击发音*/
+const audio_ref = ref(null)
+// 点击按钮播放音频
+function play_audio(type, word) {
+  const url = 'http://dict.youdao.com/dictvoice?'
+  audio_ref.value.src = `${url}type=${type}&audio=${word}`
+  audio_ref.value.play();
+}
+
 </script>
 
 <template>
@@ -27,8 +36,8 @@ watch(() => props.word, async (new_word) => {
     <div class="card-header d-flex justify-content-between">
       <div>{{ word }}</div>
       <div class="pronunciation d-flex">
-        <span>英 <i class="iconfont icon-fayin"></i></span>
-        <span>美 <i class="iconfont icon-fayin"></i></span>
+        <span @click="play_audio(1, word)">英 <i class="iconfont icon-fayin"></i></span>
+        <span @click="play_audio(2, word)">美 <i class="iconfont icon-fayin"></i></span>
       </div>
     </div>
     <div class="card-body p-0">
@@ -40,6 +49,7 @@ watch(() => props.word, async (new_word) => {
         </li>
       </ul>
     </div>
+    <audio ref="audio_ref" class="hidden" src=""></audio>
   </div>
 </template>
 
