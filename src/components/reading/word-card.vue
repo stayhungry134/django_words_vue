@@ -1,26 +1,29 @@
 <script setup>
 import {defineProps, ref, watch} from 'vue'
-import { get_youdao_translate } from "@/assets/ts/utils";
 
 const props = defineProps({
     word: String,
 })
 
-// 获取单词的释义
-let dirty = ref(true)
-const translate = ref({})
+const translate = async (word) => {
+  const response = await fetch(`/word_api/word/?word=${word}`)
+  return await response.json()
+}
+
+/** 获取单词的释义*/
+const translation = ref()
 watch(() => props.word, async (new_word) => {
-  let res = await get_youdao_translate(3, new_word)
-  if (res && res.data){
-    translate.value = res.data.entries
-    dirty.value = false
+  let res = await translate(new_word)
+  console.log(res)
+  if (res){
+    translation.value = res
   }
 })
 
 </script>
 
 <template>
-  <div v-if="!dirty" class="card word-card">
+  <div @mouseleave="$emit('hide_card')" class="card word-card">
     <div class="card-header d-flex justify-content-between">
       <div>{{ word }}</div>
       <div class="pronunciation d-flex">
@@ -30,15 +33,12 @@ watch(() => props.word, async (new_word) => {
     </div>
     <div class="card-body p-0">
       <ul class="list-group list-group-flush">
-        <li v-for="item in translate"
-            class="list-group-item">
-          <div class="web-word">{{ item.entry }}</div>
-          <div>{{ item.explain }}</div>
+        <li v-for="item in translation"
+            class="list-group-item d-flex">
+          <div class="pos me-2">{{ item.pos }}</div>
+          <div>{{ item.tran }}</div>
         </li>
       </ul>
-    </div>
-    <div class="card-footer">
-      <div class="btn btn-primary float-end">添加</div>
     </div>
   </div>
 </template>
@@ -74,7 +74,7 @@ watch(() => props.word, async (new_word) => {
       }
     }
   }
-  .web-word{
+  .pos{
     font-size: 1.2em;
     color: #28bea0;
   }

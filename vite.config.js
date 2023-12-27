@@ -33,12 +33,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/word_api/, '')
       },
-      // 有道词典
-      '/youdao_dict': {
-        target: 'https://dict.youdao.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/youdao_dict/, '')
-      }
     }
   },
 })
