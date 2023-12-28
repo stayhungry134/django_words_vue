@@ -32,6 +32,7 @@ const props = defineProps({
 .article-item{
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,.2);
+  cursor: pointer;
 
   &-info{
     display: flex;

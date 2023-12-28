@@ -119,7 +119,7 @@ const show_word_card = (e, word) => {
         </div>
       </div>
 <!--      文章图片-->
-      <div class="image">
+      <div class="image text-center">
         <img :src="article.image" alt="">
       </div>
 <!--      文章内容-->
@@ -150,6 +150,7 @@ const show_word_card = (e, word) => {
       <div class="article_list">
         <div v-for="article in articles_page.articles"
              :key="article.id"
+             @click="article_id= article.id"
              class="mb-2">
           <article-item :article="article"></article-item>
         </div>
