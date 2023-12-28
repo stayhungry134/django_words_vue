@@ -7,9 +7,9 @@ import path from 'path'
 // 本地调试时，将api_online设置为false
 let api_online = false
 
-const online_url = 'http://word.stayhungry134.com:8000/word_api'
-// const local_url = 'http://192.168.2.12:8000/word_api'
-const local_url = 'http://127.0.0.1:8001/word_api'
+const online_url = 'http://word.stayhungry134.com:8000'
+// const local_url = 'http://192.168.2.12:8000'
+const local_url = 'http://127.0.0.1:8001'
 
 // 根据api_online的值，选择api_url
 let api_url = local_url
@@ -31,8 +31,14 @@ export default defineConfig({
       '/word_api': {
         target: api_url,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/word_api/, '')
+        rewrite: (path) => path.replace(/^\/word_api/, '/word_api/')
       },
+      // 设置代理可以让页面中匹配到 /word_media 的路由都被替代
+        '/word_media': {
+            target: api_url,
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/word_media/, '/word_media/')
+        },
     }
   },
 })
