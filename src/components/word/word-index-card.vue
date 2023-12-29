@@ -30,7 +30,9 @@ const props = defineProps({
   }
   .info{
     height: 60%;
+    font-size: 18px;
     background: #f0f0f0;
+    color: #7c8a8a;
   }
 }
 .select-card:hover{
