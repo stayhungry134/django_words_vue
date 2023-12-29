@@ -3,32 +3,28 @@ import {computed, onMounted, ref} from "vue";
 import { useColorStore } from "~/store/counter";
 import { hexToRgb } from "~/assets/ts/utils";
 
-let words = ref(null)
 // 获取今天的日期并格式化
 const today = new Date().toDateString()
-// 音频标签
-const audio_ref = ref(null)
-// 当前页面
-let current_page = ref(1)
-let page_size = ref(40)
-let total_count = ref(0)
-let api = '/word_api/ebbinghaus/words/'
 
-// 主题颜色
+/** 主题颜色 */
 const color = useColorStore();
 const word_bg = computed(() => {
   return hexToRgb(color.theme_color, 0.2)
 })
 
-// 请求单词
+/** 请求单词 */
+let words = ref(null)
+let current_page = ref(1)
+let page_size = ref(20)
+let total_count = ref(0)
+let api = '/word_api/word/remind/'
 function get_words() {
-
   fetch(`${api}?page=${current_page.value}&page_size=${page_size.value}`)
       // .then(response => console.log(response.json()))
       .then(response => response.json())
       .then(data => {
-        words.value = data.words;
-        total_count = data.total_count;
+        words.value = data.items;
+        total_count = data.total;
       })
       .catch(error => console.log(error))
 }
@@ -37,17 +33,7 @@ onMounted(() => {
   get_words()
 })
 
-// 提交表单
-function submit_form() {
-  console.log(words.value)
-  fetch(api, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(words.value)
-  }).then(() => get_words())
-}
+/** 改变页面 */
 // 改变每页大小
 function handle_size_change(val) {
   page_size.value = val
@@ -57,18 +43,26 @@ function handle_size_change(val) {
 function handle_current_change(val) {
   current_page.value = val
   get_words()
+  // 滑动到顶部
+  window.scrollTo(0, 0)
 }
 
-// 点击按钮播放音频
+/**播放音频*/
+// 音频标签
+const audio_ref = ref(null)
 function play_audio(type, word) {
   const url = 'http://dict.youdao.com/dictvoice?'
   audio_ref.value.src = `${url}type=${type}&audio=${word}`
   audio_ref.value.play();
 }
 
+/** 切换词典*/
+let current_dict = ref('youdao')
+
 </script>
 
 <template>
+<!--  单词列表-->
   <div class="container main" :style="{borderColor: color.theme_color}">
     <div class="header-title">
       <h1 class="text-center">单词列表 - <span :style="{color: color.theme_color}">快速浏览</span></h1>
@@ -99,8 +93,8 @@ function play_audio(type, word) {
     <div>
       <div class="table-body">
         <div class="word-list w-100 h-100 align-items-stretch d-flex flex-wrap">
-          <div class="word-item w-50"  v-for="(word, word_key, index) in words"
-               :key="word_key">
+          <div class="word-item w-50"  v-for="(record, index) in words"
+               :key="record.id">
             <div class="row"
                  :style="index % 4 < 2? '': `background-color: ${word_bg}`">
               <div class="col-1 num d-flex justify-content-center align-items-center"
@@ -109,10 +103,24 @@ function play_audio(type, word) {
               </div>
               <div class="col-4 word d-flex justify-content-center align-items-center"
                    :style="{color: color.theme_color}">
-                {{ word_key }}
+                {{ record.word.word }}
               </div>
               <div class="col-7 d-flex flex-column justify-content-center meaning">
-                <span class="d-block text-muted" v-for="definition in word.definition" v-html="definition"></span>
+                <template v-if="current_dict==='youdao'">
+                  <div v-for="trans in record.word.meaning"
+                       class="text-muted d-flex mt-1">
+                    <span class="me-2">{{ trans.pos }}</span>
+                    <span>{{ trans.tran }}</span>
+                  </div>
+                </template>
+                <template v-if="current_dict==='collins'">
+                  <div v-for="trans in record.word.collins"
+                       class="text-muted d-flex mt-1">
+                    <span class="me-1 flex-shrink-0 color-77"
+                          :title="trans.tran_entry[0].pos_entry.pos_tips">{{ trans.tran_entry[0].pos_entry.pos }}</span>
+                    <span v-html="trans.tran_entry[0].tran"></span>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -121,7 +129,15 @@ function play_audio(type, word) {
     </div>
     <audio ref="audio_ref" class="hidden" src=""></audio>
   </div>
-
+<!--切换按钮，中文释义或者柯林斯词典-->
+  <div class="change-meaning position-fixed">
+    <div class="all-center h-50"
+         :class="{'selected-dict': current_dict==='youdao'}"
+         @click="current_dict='youdao'">有道词典</div>
+    <div class="collins all-center h-50"
+         :class="{'selected-dict': current_dict==='collins'}"
+         @click="current_dict='collins'">柯林斯词典</div>
+  </div>
   <!--  分页-->
   <div class="d-flex container justify-content-end">
     <el-pagination
@@ -240,6 +256,27 @@ function play_audio(type, word) {
     .meaning {
       font-size: 16px;
     }
+  }
+  .color-77{
+    color: #77bbaf;
+
+  }
+}
+
+.change-meaning{
+  right: 20px;
+  top: 100px;
+  width: 150px;
+  height: 100px;
+  border-radius: 10px;
+  border: 2px solid #77bbaf;
+  cursor: pointer;
+  .collins{
+    border-top: 2px solid #77bbaf;
+  }
+  .selected-dict{
+    background-color: #77bbaf;
+    color: white;
   }
 }
 </style>
