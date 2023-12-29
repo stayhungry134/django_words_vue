@@ -69,4 +69,7 @@ const props = defineProps({
     font-size: 14px;
   }
 }
+.article-item:hover{
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
 </style>
