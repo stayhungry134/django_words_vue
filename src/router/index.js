@@ -10,18 +10,52 @@ const routes = [{
         {
             path: '/',
             component: () => import('~/pages/home/index.vue'),
+            name: 'Home',
         },
+        // 单词模块
         {
-          path: '/words/ebbinghaus',
-            component: () => import('~/pages/words/ebbinghaus.vue')
+          path: 'word',
+            component: () => import('~/pages/words/word.vue'),
+            children: [
+                {
+                    path: '',
+                    component: () => import('~/pages/words/select-card.vue'),
+                    name: 'Word',
+                },
+                {
+                    path: 'review',
+                    component: () => import('~/pages/words/review.vue'),
+                    name: 'WordReview',
+                },
+                {
+                    path: 'list',
+                    component: () => import('~/pages/words/list.vue'),
+                    name: 'WordList',
+                },
+                {
+                    path: 'ebbinghaus',
+                    component: () => import('~/pages/words/ebbinghaus.vue'),
+                    name: 'WordEbbinghaus',
+                },
+            ]
         },
+        // 阅读模块
         {
-            path: '/words/list',
-            component: () => import('~/pages/words/list.vue')
-        },
-        {
-          path: '/reading/article',
-            component: () => import('~/pages/reading/article.vue')
+          path: 'reading',
+            component: () => import('~/pages/reading/article.vue'),
+            name: 'Reading',
+            children: [
+                {
+                    path: 'article',
+                    component: () => import('~/pages/reading/article.vue'),
+                    name: 'ReadingArticle',
+                },
+                {
+                    path: 'book',
+                    component: () => import('~/pages/reading/book.vue'),
+                    name: 'ReadingBook',
+                },
+            ]
         }]
 }, {
     path: '/:pathMatch(.*)*',
