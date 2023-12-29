@@ -4,3 +4,9 @@
 @import url('//at.alicdn.com/t/c/font_4376427_uqo2opfj6yo.css');
 // elementUI
 @import "element-plus/dist/index.css";
+
+.all-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
