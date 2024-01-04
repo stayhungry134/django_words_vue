@@ -48,7 +48,7 @@ let reset_word = () => {
 </script>
 
 <template>
-  <div class="typing container all-center flex-column">
+  <div class="typing all-center flex-column bg-info">
 <!--    释义-->
     <div class="meaning">
       <div class="d-flex">
@@ -66,11 +66,14 @@ let reset_word = () => {
     </div>
 <!--    单词-->
     <div class="word position-relative">
-      <div>
+      <div v-if="1">
         <span class="spell">{{ user_input }}</span>
         <span>{{ remain }}</span>
       </div>
-      <div>______</div>
+      <div v-else class="d-flex">
+        <span class="spell">{{ user_input }}</span>
+        <span>{{ '_'.repeat(remain.length) }}</span>
+      </div>
 <!--      发音-->
       <i class="iconfont icon-laba-xianxing fs-2"></i>
     </div>
