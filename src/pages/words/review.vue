@@ -1,9 +1,12 @@
 <script setup>
 
+import PracticeWord from "@/components/word/practice-word.vue";
 </script>
 
 <template>
-<h1>这里记忆单词</h1>
+  <div class="practice">
+    <practice-word></practice-word>
+  </div>
 </template>
 
 <style scoped lang="scss">
