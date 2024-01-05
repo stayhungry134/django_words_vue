@@ -34,11 +34,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/word_api/, '/word_api/')
       },
       // 设置代理可以让页面中匹配到 /word_media 的路由都被替代
-        '/word_media': {
-            target: api_url,
-            changeOrigin: true,
-            rewrite: (path) => path.replace(/^\/word_media/, '/word_media/')
-        },
+      '/word_media': {
+          target: api_url,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/word_media/, '/word_media/')
+      },
     }
   },
 })
