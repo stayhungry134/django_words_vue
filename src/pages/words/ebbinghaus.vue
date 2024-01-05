@@ -125,14 +125,14 @@ function play_audio(type, word) {
                               <div class="check-learn">
                                   <i class="iconfont icon-fayin"
                                      :style="{color: color.theme_color}"
-                                     @click="play_audio(0, record.word.word)"></i>
+                                     @click="play_audio(2, record.word.word)"></i>
                               </div>
                           </div>
                           <div class="col h-100">
                               <div class="check-learn">
                                   <i class="iconfont icon-fayin"
                                      :style="{color: color.theme_color}"
-                                     @click="play_audio(1, word_key)"></i>
+                                     @click="play_audio(1, record.word.word)"></i>
                               </div>
                           </div>
                       </div>
