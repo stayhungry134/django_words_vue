@@ -1,30 +1,125 @@
 <script setup>
-
 import PracticeWordCard from "@/components/word/practice-word-card.vue";
+import {onMounted, ref} from "vue";
+
+/** 菜单模块*/
+// 点击折叠菜单
+let menu_fold = ref(false)
+const fold_menu = () =>{
+  menu_fold.value = !menu_fold.value
+  console.log(menu_fold.value)
+}
+// 是否为默写模式
+let is_typing = ref(true)
+const change_typing = () => {
+  is_typing.value = !is_typing.value
+}
+// 是否显示释义
+let is_meaning = ref(true)
+const change_meaning = () => {
+  is_meaning.value = !is_meaning.value
+}
+
+
+/** 单词模块*/
+let word_pager = ref(null)
+let word_list = ref([])
+// 现在记忆的单词
+let now_word = ref(null)
+
+// 单词记忆次数映射(3次之后就提交)
+const word_memory_map = ref({})
+// 获取单词单词
+const get_word = async () => {
+  const response = await fetch('/word_api/word/remind/')
+  word_pager.value = await response.json()
+  word_pager.value.items.forEach(item => {
+    word_list.value.push(item)
+    word_memory_map.value[item.word.word] = 0
+  })
+}
+onMounted(async () => {
+  await get_word()
+  now_word.value = word_list.value[0].word
+})
+
+// 下一个单词
+const next_word = () =>{
+  // 随机一个单词作为现在的单词
+  if (word_list.value.length === 0){
+    now_word.value = null
+  }
+  now_word.value = word_list.value[Math.floor(Math.random() * word_list.value.length)].word
+  // 如果小于5个还有下一页的话就获取单词
+  if (word_list.value.length <= 5 && word_pager.value.has_next){
+    get_word()
+  }
+}
+// 记忆单词
+const memory_word = (word) => {
+  // 记忆次数加一
+  word_memory_map.value[word] += 1
+  // 如果记忆次数大于3次，就提交，并移除该单词
+  if (word_memory_map.value[word] >= 3){
+    console.log('提交')
+    // 移除该单词
+    word_list.value = word_list.value.filter(item => item.word.word !== word)
+  }
+  // 否则就继续记忆
+  else{
+    console.log(`这个单词的熟练度为${word_memory_map.value[word]}}`)
+  }
+  // 记忆下一个单词
+  next_word()
+}
+// 重置单词
+const reset_word = (word) => {
+  console.log(word)
+  word_memory_map.value[word] = 0
+}
+
 </script>
 
 <template>
   <div class="practice container">
-    <div class="word-tab w-100 d-flex justify-content-between align-items-center px-4">
-      <div>显示</div>
+    <div class="word-tab w-75 mx-auto d-flex justify-content-between align-items-center px-4">
+      <div>12/196</div>
 
-      <div>
-<!--        icon-yanjing_xianshi-->
-        <i class="iconfont icon-yanjing_xianshi"></i>
-<!--        icon-fanyi-->
-        <i class="iconfont icon-fanyi"></i>
-        <i class="iconfont icon-laba-xianxing"></i>
-        <i class="iconfont icon-31shezhi"></i>
+      <div class="d-flex">
+        <div class="icon-folder"
+             :class="{ 'menu-folded': menu_fold }">
+          <!--        icon-yanjing_xianshi-->
+          <i class="iconfont"
+             :class="is_typing ? 'icon-yanjing-yincang' : 'icon-yanjing_xianshi'"
+             @click="change_typing"></i>
+          <!--        icon-fanyi-->
+          <i class="iconfont"
+             :class="is_meaning? 'icon-caozuo-fanyi-full': 'icon-fanyi'"
+             @click="change_meaning"></i>
+          <i class="iconfont icon-laba-xianxing"></i>
+        </div>
+        <div>
+          <i class="iconfont icon-31shezhi"></i>
+          <i class="iconfont icon-shouqicaidan"
+             @click="fold_menu"></i>
+        </div>
       </div>
     </div>
 <!--    记忆单词的卡片-->
-    <practice-word-card></practice-word-card>
+    <div v-if="now_word" class="w-75 mx-auto">
+      <practice-word-card
+          :is_typing="is_typing"
+          :is_meaning="is_meaning"
+          :word="now_word"
+          @memory_word="memory_word"
+          @reset_word="reset_word">
+      </practice-word-card>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .practice{
-
   .word-tab{
     height: 70px;
     background: #f0f2f4;
@@ -39,6 +134,14 @@ import PracticeWordCard from "@/components/word/practice-word-card.vue";
       border-radius: 4px;
       cursor: pointer;
       font-size: 30px;
+    }
+    .icon-folder{
+      width: 165px;
+      transition: all .3s ease-in-out;
+      overflow: hidden;
+    }
+    .menu-folded{
+    width: 0;
     }
     .iconfont:hover{
       color: white;
