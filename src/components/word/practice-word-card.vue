@@ -38,33 +38,36 @@ let remain = ref('')
 onMounted(async () => {
   window.addEventListener('keydown', handle_keydown)
   remain.value = props.word.word
-  play_audio()
+  setTimeout(() => {play_audio()}, 200)
 })
 
 // 处理键盘事件
 let handle_keydown = (e) => {
-  if (remain.value.length === 0){
-    // d 表示下一个
-    if (e.key === 'd'){
-      memory_word()
+  if (e.key.match(/[a-zA-Z,.-]/)){
+    play_keyboard_audio()
+    if (remain.value.length === 0){
+      // d 表示下一个
+      if (e.key === 'd'){
+        memory_word()
+      }
+      // p 表示发音
+      if (e.key === 'p'){
+        play_audio()
+      }
+      // s 表示重新拼写
+      if (e.key === 's'){
+        respell_word()
+      }
+      return
     }
-    // p 表示发音
-    if (e.key === 'p'){
-      play_audio()
+    if (e.key === remain.value[0]){
+      user_input.value += e.key
+      remain.value = remain.value.slice(1)
     }
-    // s 表示重新拼写
-    if (e.key === 's'){
-      respell_word()
-    }
-    return
-  }
-  if (e.key === remain.value[0]){
-    user_input.value += e.key
-    remain.value = remain.value.slice(1)
-  }
-  // 如果拼错，就重置单词
-  else{
+    // 如果拼错，就重置单词
+    else{
     reset_word()
+  }
   }
 }
 
@@ -108,6 +111,14 @@ function play_audio() {
   audio_ref.value.play();
 }
 
+
+/** 键盘敲击模块*/
+let keyboard_audio = ref(null)
+const play_keyboard_audio = () => {
+  keyboard_audio.value.play();
+}
+
+
 </script>
 
 <template>
@@ -141,6 +152,8 @@ function play_audio() {
 <!--    音标-->
     <div class="phonetic">[{{ word.us_phone }}]</div>
   </div>
+<!--  键盘敲击音-->
+  <audio ref="keyboard_audio" class="hidden" src="../../assets/sound/keyboard/typing_audio.mp3"></audio>
 </template>
 
 <style scoped lang="scss">
