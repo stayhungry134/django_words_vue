@@ -85,12 +85,12 @@ export function usePlayKeyboardAudio() {
 export function getAudioFileUrl(name: string) {
     if (name === '机械键盘') {
         return [
-            `/src/assets/video/keyboard/machine/机械0.mp3`,
-            `/src/assets/video/keyboard/machine/机械1.mp3`,
-            `/src/assets/video/keyboard/machine/机械2.mp3`,
-            `/src/assets/video/keyboard/machine/机械3.mp3`,
+            `@/assets/video/keyboard/machine/机械0.mp3`,
+            `@/assets/video/keyboard/machine/机械1.mp3`,
+            `@/assets/video/keyboard/machine/机械2.mp3`,
+            `@/assets/video/keyboard/machine/机械3.mp3`,
         ]
     } else {
-        return [`/src/assets/video/keyboard/${name}.mp3`]
+        return [`@/assets/video/keyboard/${name}.mp3`]
     }
 }
