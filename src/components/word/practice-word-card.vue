@@ -1,5 +1,6 @@
 <script setup>
 import {onMounted, ref, watch, defineEmits} from "vue";
+import {usePlayKeyboardAudio} from "@/assets/ts/video";
 
 /** 属性模块*/
 // props

@@ -5,36 +5,36 @@ import {
 
 const routes = [{
     path: '/',
-    component: () => import('~/layout/index.vue'),
+    component: () => import('@/layout/index.vue'),
     children: [
         {
             path: '/',
-            component: () => import('~/pages/home/index.vue'),
+            component: () => import('@/pages/home/index.vue'),
             name: 'Home',
         },
         // 单词模块
         {
           path: 'word',
-            component: () => import('~/pages/words/word.vue'),
+            component: () => import('@/pages/words/word.vue'),
             children: [
                 {
                     path: '',
-                    component: () => import('~/pages/words/select-card.vue'),
+                    component: () => import('@/pages/words/select-card.vue'),
                     name: 'Word',
                 },
                 {
                     path: 'review',
-                    component: () => import('~/pages/words/review.vue'),
+                    component: () => import('@/pages/words/review.vue'),
                     name: 'WordReview',
                 },
                 {
                     path: 'list',
-                    component: () => import('~/pages/words/list.vue'),
+                    component: () => import('@/pages/words/list.vue'),
                     name: 'WordList',
                 },
                 {
                     path: 'ebbinghaus',
-                    component: () => import('~/pages/words/ebbinghaus.vue'),
+                    component: () => import('@/pages/words/ebbinghaus.vue'),
                     name: 'WordEbbinghaus',
                 },
             ]
@@ -42,17 +42,17 @@ const routes = [{
         // 阅读模块
         {
           path: 'reading',
-            component: () => import('~/pages/reading/article.vue'),
+            component: () => import('@/pages/reading/article.vue'),
             name: 'Reading',
             children: [
                 {
                     path: 'article',
-                    component: () => import('~/pages/reading/article.vue'),
+                    component: () => import('@/pages/reading/article.vue'),
                     name: 'ReadingArticle',
                 },
                 {
                     path: 'book',
-                    component: () => import('~/pages/reading/book.vue'),
+                    component: () => import('@/pages/reading/book.vue'),
                     name: 'ReadingBook',
                 },
             ]
@@ -60,7 +60,7 @@ const routes = [{
 }, {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('~/pages/404.vue'),
+    component: () => import('@/pages/404.vue'),
     meta: {
         title: '404'
     }

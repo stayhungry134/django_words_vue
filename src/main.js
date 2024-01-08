@@ -22,7 +22,7 @@ const pinia = createPinia()
 app.use(pinia)
 
 // 引入全局样式
-import '~/assets/css/scss/global.scss'
+import '@/assets/css/scss/global.scss'
 
 // 引入全局ts
 import '@/assets/ts/common.ts'

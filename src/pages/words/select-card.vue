@@ -1,5 +1,5 @@
 <script setup>
-import WordIndexCard from "~/components/word/word-index-card.vue";
+import WordIndexCard from "@/components/word/word-index-card.vue";
 import {reactive} from "vue";
 
 const select_card = reactive({

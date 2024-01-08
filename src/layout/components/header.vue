@@ -1,5 +1,5 @@
 <script setup>
-import {useColorStore} from "~/store/counter";
+import {useColorStore} from "@/store/counter";
 
 // 设置背景色
 const color = useColorStore();

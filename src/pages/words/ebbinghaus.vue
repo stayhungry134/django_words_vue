@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
-import { useColorStore } from "~/store/counter";
-import { hexToRgb } from "~/assets/ts/utils";
+import { useColorStore } from "@/store/counter";
+import { hexToRgb } from "@/assets/ts/utils";
 
 let words = ref(null)
 // 获取今天的日期并格式化
