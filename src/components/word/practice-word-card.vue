@@ -115,9 +115,7 @@ function play_audio() {
 
 /** 键盘敲击模块*/
 let keyboard_audio = ref(null)
-const play_keyboard_audio = () => {
-  keyboard_audio.value.play();
-}
+const play_keyboard_audio = usePlayKeyboardAudio()
 
 
 </script>
@@ -147,14 +145,11 @@ const play_keyboard_audio = () => {
       <div class="">
         <i class="iconfont icon-laba-xianxing position-absolute end-0 top-50"
            @click="play_audio"></i>
-        <audio ref="audio_ref" class="hidden" src=""></audio>
       </div>
     </div>
 <!--    音标-->
     <div class="phonetic">[{{ word.us_phone }}]</div>
   </div>
-<!--  键盘敲击音-->
-  <audio ref="keyboard_audio" class="hidden" src="../../assets/sound/keyboard/typing_audio.mp3"></audio>
 </template>
 
 <style scoped lang="scss">
