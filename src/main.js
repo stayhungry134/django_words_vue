@@ -21,6 +21,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 const pinia = createPinia()
 app.use(pinia)
 
+// 引入animate动画
+import 'animate.css'
+
 // 引入全局样式
 import '@/assets/css/scss/global.scss'
 

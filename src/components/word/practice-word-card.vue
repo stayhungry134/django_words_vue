@@ -32,7 +32,8 @@ let props = defineProps({
 /** 单词*/
 // 用户输入
 let user_input = ref('')
-
+// 错误输入
+let error_input = ref('')
 // 剩余字符
 let remain = ref('')
 
@@ -69,11 +70,23 @@ let handle_keydown = (e) => {
     }
     // 如果拼错，就重置单词
     else{
+      handle_input_error(e.key)
       play_word_audio()
       play_error_audio()
       reset_word()
     }
   }
+}
+
+// 处理用户输入错误
+const handle_input_error = (key) => {
+  let tem_remain = remain.value
+  remain.value = remain.value.slice(1)
+  error_input.value = key
+  setTimeout(() => {
+    error_input.value = ''
+  }, 500)
+  remain.value = tem_remain
 }
 
 // 重新拼写单词
@@ -149,13 +162,15 @@ const play_error_audio = () => {
     </div>
 <!--    单词-->
     <div class="word position-relative">
-      <div v-if="!is_typing">
+      <div v-if="!is_typing" class="d-flex animate__animated" :class="{animate__headShake: error_input.length}">
         <span class="spell">{{ user_input }}</span>
+        <span class="error">{{ error_input }}</span>
         <span>{{ remain }}</span>
       </div>
-      <div v-else class="d-flex">
+      <div v-else class="d-flex animate__animated" :class="{animate__headShake: error_input.length}">
         <span class="spell">{{ user_input }}</span>
-        <span>{{ '_'.repeat(remain.length) }}</span>
+        <span class="error">{{ error_input }}</span>
+        <span>{{ '_'.repeat(remain.length - error_input.length) }}</span>
       </div>
 <!--      发音-->
       <div class="">
@@ -193,6 +208,9 @@ const play_error_audio = () => {
     }
     .spell{
       color: #209e85;
+    }
+    .error {
+      color: #f55d5e;
     }
   }
   .phonetic{
