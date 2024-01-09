@@ -46,11 +46,11 @@ onMounted(async () => {
 
 // 处理键盘事件
 let handle_keydown = (e) => {
-  if (e.key.match(/[a-zA-Z,.-]/)){
+  if (e.key.match(/[a-zA-Z,.\s-]/)){
     play_keyboard_audio()
     if (remain.value.length === 0){
       // d 表示下一个
-      if (e.key === 'd'){
+      if (e.key === 'd' || e.code === 'Space'){
         memory_word()
       }
       // p 表示发音
@@ -72,7 +72,7 @@ let handle_keydown = (e) => {
       play_word_audio()
       play_error_audio()
       reset_word()
-  }
+    }
   }
 }
 
@@ -100,22 +100,25 @@ const memory_word = () => {
 // 单词切换时，播放音频，清空用户输入
 watch(() => props.word, () => {
   respell_word()
-  console.log('播放音频')
   play_word_audio()
 })
 
 // 点击按钮播放音频
+let word_timer = null
 function play_word_audio() {
   let type = 2
   if (props.accent === 'uk'){
     type = 1
   }
   const src = `https://dict.youdao.com/dictvoice?type=${type}&audio=${props.word.word}`
-  const timer = setTimeout(() => {
+  if (word_timer){
+    clearTimeout(word_timer)
+  }
+  word_timer = setTimeout(() => {
     const audio = new Audio(src)
     audio.play();
-    clearTimeout(timer)
-  }, 100)
+    clearTimeout(word_timer)
+  }, 500)
 }
 
 
