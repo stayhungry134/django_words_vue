@@ -1,6 +1,9 @@
 <script setup>
 import {onMounted, ref, watch, defineEmits} from "vue";
-import {usePlayKeyboardAudio} from "@/assets/ts/video";
+
+// 导入打字的声音
+import keydown_audio from '@/assets/audio/keyboard/keyboard_audio.mp3'
+import beep_audio from '@/assets/audio/keyboard/beep.wav'
 
 /** 属性模块*/
 // props
@@ -39,7 +42,6 @@ let remain = ref('')
 onMounted(async () => {
   window.addEventListener('keydown', handle_keydown)
   remain.value = props.word.word
-  setTimeout(() => {play_audio()}, 200)
 })
 
 // 处理键盘事件
@@ -53,7 +55,7 @@ let handle_keydown = (e) => {
       }
       // p 表示发音
       if (e.key === 'p'){
-        play_audio()
+        play_word_audio()
       }
       // s 表示重新拼写
       if (e.key === 's'){
@@ -67,7 +69,9 @@ let handle_keydown = (e) => {
     }
     // 如果拼错，就重置单词
     else{
-    reset_word()
+      play_word_audio()
+      play_error_audio()
+      reset_word()
   }
   }
 }
@@ -92,30 +96,39 @@ const memory_word = () => {
 
 /** 发音模块*/
 // 音频标签
-const audio_ref = ref(null)
 
 // 单词切换时，播放音频，清空用户输入
 watch(() => props.word, () => {
   respell_word()
   console.log('播放音频')
-  play_audio()
+  play_word_audio()
 })
 
 // 点击按钮播放音频
-function play_audio() {
+function play_word_audio() {
   let type = 2
   if (props.accent === 'uk'){
     type = 1
   }
-  const url = 'http://dict.youdao.com/dictvoice?'
-  audio_ref.value.src = `${url}type=${type}&audio=${props.word.word}`
-  audio_ref.value.play();
+  const src = `https://dict.youdao.com/dictvoice?type=${type}&audio=${props.word.word}`
+  const timer = setTimeout(() => {
+    const audio = new Audio(src)
+    audio.play();
+    clearTimeout(timer)
+  }, 100)
 }
 
 
 /** 键盘敲击模块*/
-let keyboard_audio = ref(null)
-const play_keyboard_audio = usePlayKeyboardAudio()
+const play_keyboard_audio = () => {
+  const audio = new Audio(keydown_audio)
+  audio.play()
+}
+
+const play_error_audio = () => {
+  const audio = new Audio(beep_audio)
+  audio.play()
+}
 
 
 </script>
@@ -144,7 +157,7 @@ const play_keyboard_audio = usePlayKeyboardAudio()
 <!--      发音-->
       <div class="">
         <i class="iconfont icon-laba-xianxing position-absolute end-0 top-50"
-           @click="play_audio"></i>
+           @click="play_word_audio"></i>
       </div>
     </div>
 <!--    音标-->
