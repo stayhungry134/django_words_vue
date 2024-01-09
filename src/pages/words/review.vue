@@ -3,6 +3,8 @@ import PracticeWordCard from "@/components/word/practice-word-card.vue";
 import {onMounted, ref} from "vue";
 
 /** 菜单模块*/
+// 获取今天的日期并格式化
+const today = new Date().toLocaleDateString()
 // 点击折叠菜单
 let menu_fold = ref(false)
 const fold_menu = () =>{
@@ -61,16 +63,27 @@ const memory_word = (word) => {
   word_memory_map.value[word] += 1
   // 如果记忆次数大于3次，就提交，并移除该单词
   if (word_memory_map.value[word] >= 3){
-    console.log('提交')
+    submit_word(word)
     // 移除该单词
     word_list.value = word_list.value.filter(item => item.word.word !== word)
   }
-  // 否则就继续记忆
-  else{
-    console.log(`这个单词的熟练度为${word_memory_map.value[word]}}`)
-  }
   // 记忆下一个单词
   next_word()
+}
+// 提交记忆单词
+const submit_word = (word) => {
+  const response = fetch('/word_api/word/remind/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // 设置请求头为 JSON 类型
+    },
+    body: JSON.stringify({
+      word_list: [word],
+    })
+  })
+  if (response.status === 200){
+    console.log(response.json().msg)
+  }
 }
 // 重置单词
 const reset_word = (word) => {
@@ -83,7 +96,7 @@ const reset_word = (word) => {
 <template>
   <div class="practice container">
     <div class="word-tab w-75 mx-auto d-flex justify-content-between align-items-center px-4">
-      <div>12/196</div>
+      <div>{{ today }}</div>
 
       <div class="d-flex">
         <div class="icon-folder"
