@@ -1,9 +1,6 @@
-import { resolve } from 'path'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
-import {large_orange_diamond} from "yarn/lib/cli";
 
 // 本地调试时，将api_online设置为false
 let api_online = false
@@ -21,7 +18,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'),
       '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
     }
   },
