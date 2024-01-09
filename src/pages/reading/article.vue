@@ -164,7 +164,7 @@ const show_word_card = (e, word) => {
             background
             layout="total, prev, pager, next"
             :total="articles_page.total"
-            page-count="5"
+            pager-count="5"
             @current-change="handle_current_change"
         />
       </div>
