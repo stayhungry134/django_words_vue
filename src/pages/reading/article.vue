@@ -1,9 +1,10 @@
 <script setup>
 import {onMounted, ref, reactive, computed, watch} from "vue";
-import {useColorStore} from "@/store/counter";
 import WordCard from "@/components/reading/word-card.vue";
 import {useRoute} from "vue-router";
 import ArticleItem from "@/components/reading/article-item.vue";
+import { ElMessage } from "element-plus";
+import {scrollToTop} from "@/assets/ts/utils";
 
 /** 请求文章*/
 // 请求文章列表
@@ -59,9 +60,32 @@ watch(article_id, (new_article_id) => {
   get_article(new_article_id)
 })
 
+/** 提交文章*/
+const submit_reading = async (id) => {
+  let response = await fetch('/word_api/reading/article/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      article_id: id,
+      handle: 'review'
+    })
+  })
+  // 如果成功，就提示并重新获取文章，并滑动到顶部
+  let data = await response.json()
+  if (data && data.msg === 'success'){
+    ElMessage({
+      message: '恭喜你完成这篇文章的阅读',
+      type: 'success'
+    })
+    get_article()
+    scrollToTop()
+  }
+}
+
 
 /** 点击单词显示单词卡片 */
-
 // 获取当前文章的位置
 const current_article = ref(null)
 let current_article_position = {
@@ -135,7 +159,7 @@ const show_word_card = (e, word) => {
       </div>
 <!--      完成阅读-->
       <div class="complete-reading d-flex justify-content-center my-5">
-        <el-button type="primary">完成阅读</el-button>
+        <el-button type="primary" @click="submit_reading(article.id)">完成阅读</el-button>
       </div>
 <!--      单词卡片-->
       <word-card class="position-absolute"
