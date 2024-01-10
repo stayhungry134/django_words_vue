@@ -47,23 +47,23 @@ onMounted(async () => {
 
 // 处理键盘事件
 let handle_keydown = (e) => {
-  if (e.key.match(/[a-zA-Z,.\s-]/)){
-    play_keyboard_audio()
-    if (remain.value.length === 0){
-      // d 表示下一个
-      if (e.key === 'd' || e.code === 'Space'){
-        memory_word()
-      }
-      // p 表示发音
-      if (e.key === 'p'){
-        play_word_audio()
-      }
-      // s 表示重新拼写
-      if (e.key === 's'){
-        respell_word()
-      }
-      return
+  play_keyboard_audio()
+  if (remain.value.length === 0){
+    // d 表示下一个
+    if (e.key === 'd' || e.code === 'Space'){
+      memory_word()
     }
+    // p 表示发音
+    if (e.key === 'p'){
+      play_word_audio()
+    }
+    // s 表示重新拼写
+    if (e.key === 's'){
+      respell_word()
+    }
+    return
+  }
+  if (e.key.match(/^[a-zA-Z,\-']$/)) {
     if (e.key === remain.value[0]){
       user_input.value += e.key
       remain.value = remain.value.slice(1)

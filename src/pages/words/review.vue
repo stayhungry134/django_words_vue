@@ -1,6 +1,7 @@
 <script setup>
 import PracticeWordCard from "@/components/word/practice-word-card.vue";
 import {onMounted, ref} from "vue";
+import {ElMessage} from "element-plus";
 
 /** 菜单模块*/
 // 获取今天的日期并格式化
@@ -9,7 +10,6 @@ const today = new Date().toLocaleDateString()
 let menu_fold = ref(false)
 const fold_menu = () =>{
   menu_fold.value = !menu_fold.value
-  console.log(menu_fold.value)
 }
 // 是否为默写模式
 let is_typing = ref(true)
@@ -71,8 +71,8 @@ const memory_word = (word) => {
   next_word()
 }
 // 提交记忆单词
-const submit_word = (word) => {
-  const response = fetch('/word_api/word/remind/', {
+const submit_word = async (word) => {
+  const response = await fetch('/word_api/word/remind/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', // 设置请求头为 JSON 类型
@@ -81,13 +81,13 @@ const submit_word = (word) => {
       word_list: [word],
     })
   })
-  if (response.status === 200){
-    console.log(response.json().msg)
+  let data = await response.json()
+  if (data && data.msg === 'success'){
+    ElMessage.success(`${word} 已完成记忆`)
   }
 }
 // 重置单词
 const reset_word = (word) => {
-  console.log(word)
   word_memory_map.value[word] = 0
 }
 
