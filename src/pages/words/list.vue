@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import { useColorStore } from "@/store/counter";
-import { hexToRgb } from "@/assets/ts/utils";
+import { hexToRgb, scrollToTop } from "@/assets/ts/utils";
 
 // 获取今天的日期并格式化
 const today = new Date().toDateString()
@@ -44,7 +44,7 @@ function handle_current_change(val) {
   current_page.value = val
   get_words()
   // 滑动到顶部
-  window.scrollTo(0, 0)
+  scrollToTop()
 }
 
 /**播放音频*/
