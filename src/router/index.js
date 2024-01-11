@@ -42,21 +42,10 @@ const routes = [{
         // 阅读模块
         {
           path: 'reading',
-            component: () => import('@/pages/reading/article.vue'),
-            name: 'Reading',
-            children: [
-                {
-                    path: 'article',
-                    component: () => import('@/pages/reading/article.vue'),
-                    name: 'ReadingArticle',
-                },
-                {
-                    path: 'book',
-                    component: () => import('@/pages/reading/book.vue'),
-                    name: 'ReadingBook',
-                },
-            ]
-        }]
+            component: () => import('@/pages/reading/reading.vue'),
+            name: 'reading',
+        },
+        ]
 }, {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
