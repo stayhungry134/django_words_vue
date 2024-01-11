@@ -122,9 +122,9 @@ const show_word_card = (e, word) => {
 </script>
 
 <template>
-  <div class="article container row mt-5 mx-auto">
+  <div class="article row mt-5 mx-auto container-xl">
     <!--    当前文章-->
-    <div ref="current_article" class="col-8  position-relative">
+    <div ref="current_article" class="col-xl-8 col-10 col-sm-12  position-relative">
 <!--      文章标题-->
       <div class="title">
         <h1 class="h1">{{ article.title_en }}</h1>
@@ -169,7 +169,7 @@ const show_word_card = (e, word) => {
                  :word="word_card.word"></word-card>
     </div>
     <!--    其他文章-->
-    <div v-if="articles_page" class="col-4 ps-4">
+    <div v-if="articles_page" class="col-4 ps-4 d-xl-block d-none">
       <h2 class="h2">其他文章</h2>
       <div class="article_list">
         <div v-for="article in articles_page.items"
