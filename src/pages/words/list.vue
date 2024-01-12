@@ -117,6 +117,7 @@ let current_dict = ref('youdao')
                   <div v-for="trans in record.word.collins"
                        class="text-muted d-flex mt-1">
                     <span class="me-1 flex-shrink-0 color-77"
+                          v-if="trans.tran_entry[0].pos_entry"
                           :title="trans.tran_entry[0].pos_entry.pos_tips">{{ trans.tran_entry[0].pos_entry.pos }}</span>
                     <span v-html="trans.tran_entry[0].tran"></span>
                   </div>
