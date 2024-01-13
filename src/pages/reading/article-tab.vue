@@ -124,7 +124,7 @@ const show_word_card = (e, word) => {
 <template>
   <div class="article row mt-5 mx-auto container-xl">
     <!--    当前文章-->
-    <div ref="current_article" class="col-xl-8 col-10 col-sm-12  position-relative">
+    <div ref="current_article" class="col-xl-8 col-12  position-relative">
 <!--      文章标题-->
       <div class="title">
         <h1 class="h1">{{ article.title_en }}</h1>
@@ -223,6 +223,12 @@ const show_word_card = (e, word) => {
     .today-word {
       color: #ea7a6d;
     }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container{
+    padding: 0;
   }
 }
 </style>
