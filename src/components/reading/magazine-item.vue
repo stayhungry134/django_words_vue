@@ -59,7 +59,10 @@ const download_file = () => {
             <el-tooltip content="分享">
               <el-button :icon="Share"/>
             </el-tooltip>
-            <el-button type="primary">阅读</el-button>
+            <el-button type="primary"
+                       @click="$router.push(`/reading/pdf-reader/?name=${magazine.name}&local_path=${magazine.local_path}`)">
+              阅读
+            </el-button>
           </div>
         </div>
       </div>

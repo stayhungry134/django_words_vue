@@ -44,6 +44,10 @@ const routes = [{
           path: 'reading',
             component: () => import('@/pages/reading/reading.vue'),
             name: 'reading',
+        },{
+          path: 'reading/pdf-reader',
+            component: () => import('@/pages/reading/pdf-reader.vue'),
+            name: 'pdf-reader',
         },
         ]
 }, {
