@@ -102,17 +102,24 @@ const reset_word = (word) => {
         <div class="icon-folder"
              :class="{ 'menu-folded': menu_fold }">
           <!--        icon-yanjing_xianshi-->
-          <i class="iconfont"
-             :class="is_typing ? 'icon-yanjing-yincang' : 'icon-yanjing_xianshi'"
-             @click="change_typing"></i>
-          <!--        icon-fanyi-->
-          <i class="iconfont"
-             :class="is_meaning? 'icon-caozuo-fanyi-full': 'icon-fanyi'"
-             @click="change_meaning"></i>
-          <i class="iconfont icon-laba-xianxing"></i>
+          <el-tooltip content="是否为默写模式">
+            <i class="iconfont"
+               :class="is_typing ? 'icon-yanjing-yincang' : 'icon-yanjing_xianshi'"
+               @click="change_typing"></i>
+          </el-tooltip>
+          <el-tooltip content="是否显示释义">
+            <i class="iconfont"
+               :class="is_meaning? 'icon-caozuo-fanyi-full': 'icon-fanyi'"
+               @click="change_meaning"></i>
+          </el-tooltip>
+          <el-tooltip content="发音选项">
+            <i class="iconfont icon-laba-xianxing"></i>
+          </el-tooltip>
         </div>
         <div>
-          <i class="iconfont icon-31shezhi"></i>
+          <el-tooltip content="设置">
+            <i class="iconfont icon-31shezhi"></i>
+          </el-tooltip>
           <i class="iconfont icon-shouqicaidan"
              @click="fold_menu"></i>
         </div>
