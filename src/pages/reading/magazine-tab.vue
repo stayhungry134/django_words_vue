@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import MagazineItem from "@/components/reading/magazine-item.vue";
+import {scrollToTop} from "@/assets/ts/utils";
 
 /** 请求杂志类 */
 let categories = ref([])
@@ -19,8 +20,9 @@ watch(current_category, (new_val) => {
 
 let magazines = ref([])
 let magazine_pager = ref(null)
+let current_page = ref(1)
 // 请求杂志
-const get_magazines = async (category=null, page=2) => {
+const get_magazines = async (category=null, page=current_page) => {
   let url_api = `/word_api/reading/magazine?page=${page}`
 
   if (category){
@@ -28,9 +30,10 @@ const get_magazines = async (category=null, page=2) => {
   }
   magazine_pager = await fetch(url_api)
       .then(response => response.json())
-  magazine_pager.items.forEach(item => {
-    magazines.value.push(item)
-  })
+  magazines.value = magazine_pager.items
+  // magazine_pager.items.forEach(item => {
+  //   magazines.value.push(item)
+  // })
 }
 
 onMounted(() => {
@@ -38,16 +41,42 @@ onMounted(() => {
   get_magazines()
 })
 
+// 处理页面变化
+const handle_page_change = (val) => {
+  current_page.value = val
+  scrollToTop()
+}
+
+// 页面变化请求杂志
+watch(current_page, (new_val) => {
+  get_magazines(current_category.value, new_val)
+})
 
 </script>
 
 <template>
   <div class="container row">
-    <div class="col-xl-9 col-12 d-flex flex-wrap justify-content-between overflow-auto">
-      <magazine-item v-for="magazine in magazines"
-                     :key="magazine.id"
-                     :magazine="magazine">
-      </magazine-item>
+    <div v-if="magazine_pager"  class="col-xl-9 col-12">
+      <div class=" d-flex flex-wrap justify-content-between overflow-auto">
+        <magazine-item v-for="magazine in magazines"
+                       :key="magazine.id"
+                       :magazine="magazine">
+        </magazine-item>
+      </div>
+      <div>
+        <!--  分页-->
+        <div class="d-flex container justify-content-end">
+          <el-pagination
+              class="mt-3"
+              v-model:current-page="current_page"
+              background
+              layout="total, prev, pager, next"
+              :total="magazine_pager.total"
+              pager-count="5"
+              @current-change="handle_page_change"
+          />
+        </div>
+      </div>
     </div>
     <div v-if="categories.length" class="col-xl-3 d-none d-xl-block">
       <div class="h3">分类</div>
