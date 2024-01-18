@@ -11,7 +11,6 @@ const get_categories = async () => {
       .then(response => response.json())
   categories.value = res.items
   current_category.value = categories.value[0].id
-  console.log(current_category.value)
 }
 watch(current_category, (new_val) => {
   magazines.value = []
@@ -21,10 +20,11 @@ watch(current_category, (new_val) => {
 let magazines = ref([])
 let magazine_pager = ref(null)
 // 请求杂志
-const get_magazines = async (category=null) => {
-  let url_api = `/word_api/reading/magazine?category_id=${category}`
-  if (category === null){
-    url_api = `/word_api/reading/magazine`
+const get_magazines = async (category=null, page=2) => {
+  let url_api = `/word_api/reading/magazine?page=${page}`
+
+  if (category){
+    url_api += `&category_id=${category}`
   }
   magazine_pager = await fetch(url_api)
       .then(response => response.json())
@@ -43,7 +43,7 @@ onMounted(() => {
 
 <template>
   <div class="container row">
-    <div class="col-xl-9 col-12 d-flex flex-wrap justify-content-between">
+    <div class="col-xl-9 col-12 d-flex flex-wrap justify-content-between overflow-auto">
       <magazine-item v-for="magazine in magazines"
                      :key="magazine.id"
                      :magazine="magazine">
