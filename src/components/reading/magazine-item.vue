@@ -45,7 +45,7 @@ const download_file = () => {
 <template>
   <div v-if="magazine" class="magazine-item mx-4 mb-5">
     <el-card :body-style="{ padding: '0px' }">
-      <el-image class="image"
+      <el-image v-if="magazine.cover" class="image"
                 :src="magazine.cover.replace('magazine_cover', 'magazine_cover/compress')"
                 fit="cover"
                 :preview-src-list="[magazine.cover]"></el-image>

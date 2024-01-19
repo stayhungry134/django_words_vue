@@ -43,7 +43,28 @@ const routes = [{
         {
           path: 'reading',
             component: () => import('@/pages/reading/reading.vue'),
-            name: 'reading',
+            children: [
+                {
+                    path: '',
+                    component: () => import('@/pages/reading/select-card.vue'),
+                    name: 'Reading',
+                },
+                {
+                    path: '/article',
+                    component: () => import('@/pages/reading/article.vue'),
+                    name: 'Article',
+                },
+                {
+                    path: '/book',
+                    component: () => import('@/pages/reading/book.vue'),
+                    name: 'Book',
+                },
+                {
+                    path: '/magazine',
+                    component: () => import('@/pages/reading/Magazine.vue'),
+                    name: 'Magazine',
+                },
+            ]
         },{
           path: 'reading/pdf-reader',
             component: () => import('@/pages/reading/pdf-reader.vue'),

@@ -1,19 +1,19 @@
 <script setup>
-import {reactive} from "vue";
+import { reactive } from "vue";
 import SelectCardItem from "@/components/select-card-item.vue";
 
 const select_card = reactive({
-  'WordList': {
-    'title': '快速浏览',
-    'info': '通过单词列表的形式快速浏览单词',
+  'Article': {
+    'title': '短文',
+    'info': '扇贝精选短文！',
   },
-  'WordEbbinghaus': {
-    'title': '艾宾浩斯抗遗忘',
-    'info': '通过艾宾浩斯遗忘曲线来记忆单词',
+  'Book': {
+    'title': '书籍',
+    'info': '快来阅读书籍吧！',
   },
-  'WordReview': {
-    'title': '单词回顾',
-    'info': '通过回顾单词来巩固记忆',
+  'Magazine': {
+    'title': '杂志',
+    'info': '国际知名杂志，精彩不错过！',
   }
 })
 </script>

@@ -22,7 +22,7 @@ let magazines = ref([])
 let magazine_pager = ref(null)
 let current_page = ref(1)
 // 请求杂志
-const get_magazines = async (category=null, page=current_page) => {
+const get_magazines = async (category=null, page=current_page.value) => {
   let url_api = `/word_api/reading/magazine?page=${page}`
 
   if (category){
@@ -30,7 +30,6 @@ const get_magazines = async (category=null, page=current_page) => {
   }
   magazine_pager = await fetch(url_api)
       .then(response => response.json())
-  magazines.value = magazine_pager.items
   // magazine_pager.items.forEach(item => {
   //   magazines.value.push(item)
   // })
@@ -38,7 +37,6 @@ const get_magazines = async (category=null, page=current_page) => {
 
 onMounted(() => {
   get_categories()
-  get_magazines()
 })
 
 // 处理页面变化
@@ -56,16 +54,16 @@ watch(current_page, (new_val) => {
 
 <template>
   <div class="container row">
-    <div v-if="magazine_pager"  class="col-xl-9 col-12">
-      <div class=" d-flex flex-wrap justify-content-between overflow-auto">
-        <magazine-item v-for="magazine in magazines"
+    <div class="col-xl-9 col-12">
+      <div v-if="magazine_pager" class=" d-flex flex-wrap justify-content-between overflow-auto">
+        <magazine-item v-for="magazine in magazine_pager.items"
                        :key="magazine.id"
                        :magazine="magazine">
         </magazine-item>
       </div>
       <div>
         <!--  分页-->
-        <div class="d-flex container justify-content-end">
+        <div v-if="magazine_pager" class="d-flex container justify-content-end">
           <el-pagination
               class="mt-3"
               v-model:current-page="current_page"
