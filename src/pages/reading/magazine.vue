@@ -13,7 +13,9 @@ const get_categories = async () => {
   categories.value = res.items
   current_category.value = categories.value[0].id
 }
+// 处理分类变化
 watch(current_category, (category) => {
+  current_page.value = 1
   get_magazines(category)
 })
 
