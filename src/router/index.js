@@ -61,14 +61,15 @@ const routes = [{
                 },
                 {
                     path: 'magazine',
-                    component: () => import('@/pages/reading/Magazine.vue'),
+                    component: () => import('@/pages/reading/magazine.vue'),
                     name: 'Magazine',
                 },
+                {
+                    path: 'pdf-reader',
+                    component: () => import('@/pages/reading/pdf-reader.vue'),
+                    name: 'PdfReader',
+                },
             ]
-        },{
-          path: 'reading/pdf-reader',
-            component: () => import('@/pages/reading/pdf-reader.vue'),
-            name: 'pdf-reader',
         },
         ]
 }, {
