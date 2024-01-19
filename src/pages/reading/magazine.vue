@@ -13,12 +13,10 @@ const get_categories = async () => {
   categories.value = res.items
   current_category.value = categories.value[0].id
 }
-watch(current_category, (new_val) => {
-  magazines.value = []
-  get_magazines(new_val)
+watch(current_category, (category) => {
+  get_magazines(category)
 })
 
-let magazines = ref([])
 let magazine_pager = ref(null)
 let current_page = ref(1)
 // 请求杂志
@@ -28,7 +26,7 @@ const get_magazines = async (category=null, page=current_page.value) => {
   if (category){
     url_api += `&category_id=${category}`
   }
-  magazine_pager = await fetch(url_api)
+  magazine_pager.value = await fetch(url_api)
       .then(response => response.json())
   // magazine_pager.items.forEach(item => {
   //   magazines.value.push(item)
@@ -53,7 +51,7 @@ watch(current_page, (new_val) => {
 </script>
 
 <template>
-  <div class="container row">
+  <div class="container-xl mx-auto row">
     <div class="col-xl-9 col-12">
       <div v-if="magazine_pager" class=" d-flex flex-wrap justify-content-between overflow-auto">
         <magazine-item v-for="magazine in magazine_pager.items"
@@ -63,14 +61,13 @@ watch(current_page, (new_val) => {
       </div>
       <div>
         <!--  分页-->
-        <div v-if="magazine_pager" class="d-flex container justify-content-end">
+        <div v-if="magazine_pager" class="d-flex container justify-content-center">
           <el-pagination
               class="mt-3"
               v-model:current-page="current_page"
               background
               layout="total, prev, pager, next"
               :total="magazine_pager.total"
-              pager-count="5"
               @current-change="handle_page_change"
           />
         </div>

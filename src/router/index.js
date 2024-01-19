@@ -50,17 +50,17 @@ const routes = [{
                     name: 'Reading',
                 },
                 {
-                    path: '/article',
+                    path: 'article',
                     component: () => import('@/pages/reading/article.vue'),
                     name: 'Article',
                 },
                 {
-                    path: '/book',
+                    path: 'book',
                     component: () => import('@/pages/reading/book.vue'),
                     name: 'Book',
                 },
                 {
-                    path: '/magazine',
+                    path: 'magazine',
                     component: () => import('@/pages/reading/Magazine.vue'),
                     name: 'Magazine',
                 },
