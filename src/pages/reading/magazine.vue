@@ -2,6 +2,7 @@
 import {onMounted, ref, watch} from "vue";
 import MagazineItem from "@/components/reading/magazine-item.vue";
 import {scrollToTop} from "@/assets/ts/utils";
+import ClassifyTab from "@/components/reading/classify-tab.vue";
 
 /** 请求杂志类 */
 let categories = ref([])
@@ -76,30 +77,12 @@ watch(current_page, (new_val) => {
       </div>
     </div>
     <div v-if="categories.length" class="col-xl-3 d-none d-xl-block">
-      <div class="h3">分类</div>
-      <div>
-        <nav class="nav flex-column">
-          <div v-for="category in categories"
-               :key="category.id"
-               class="category-item my-2 ps-2"
-               @click="current_category = category.id"
-               :class="{'active': current_category === category.id}">
-            {{ category.name }}
-          </div>
-        </nav>
-      </div>
+      <classify-tab :categories="categories"
+                    :current_category="current_category">
+      </classify-tab>
     </div>
-
   </div>
 </template>
 
 <style scoped lang="scss">
-.category-item{
-  cursor: pointer;
-  color: #303133;
-}
-.category-item.active{
-  color: #409eff;
-  border-left: 2px solid #409eff;
-}
 </style>
