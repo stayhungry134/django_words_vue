@@ -119,6 +119,24 @@ const show_word_card = (e, word) => {
   word_card.show = true
 }
 
+/** 段落相关 */
+// 复制段落
+const copy_paragraph = (paragraph) => {
+  navigator.clipboard.writeText(paragraph.join(' '))
+  ElMessage({
+    message: '复制成功',
+    type: 'success'
+  })
+}
+// 翻译段落
+const translate_paragraph = (paragraph) => {
+  console.log(paragraph.join(' '))
+}
+// 段落做笔记
+const note_paragraph = (paragraph) => {
+  console.log(paragraph.join(' '))
+}
+
 </script>
 
 <template>
@@ -148,13 +166,21 @@ const show_word_card = (e, word) => {
       </div>
 <!--      文章内容-->
       <div class="content">
-        <div class="content d-flex flex-wrap my-4"
+        <div class="paragraph d-flex flex-wrap my-4"
              v-for="paragraph in article.content">
           <template v-for="word in paragraph">
             <span class="word"
-                  @click="show_word_card($event, word)">{{ word }}</span>
-            &nbsp;
+                  @click="show_word_card($event, word)">{{ word }}&nbsp;</span>
           </template>
+          <el-tooltip content="复制">
+            <i class="iconfont icon-fuzhi mx-1" @click="copy_paragraph(paragraph)"></i>
+          </el-tooltip>
+          <el-tooltip content="翻译">
+            <i class="iconfont icon-fanyi mx-1" @click="translate_paragraph(paragraph)"></i>
+          </el-tooltip>
+          <el-tooltip content="记笔记">
+            <i class="iconfont icon-jibiji mx-1" @click="note_paragraph(paragraph)"></i>
+          </el-tooltip>
         </div>
       </div>
 <!--      完成阅读-->
@@ -207,11 +233,12 @@ const show_word_card = (e, word) => {
   .date {
   }
 
-  .content {
+  .paragraph {
     font-size: 20px;
 
     .word {
       cursor: pointer;
+      white-space: pre-wrap;
     }
 
     .word:hover {
@@ -222,6 +249,14 @@ const show_word_card = (e, word) => {
 
     .today-word {
       color: #ea7a6d;
+    }
+    .iconfont{
+      font-size: 20px;
+      cursor: pointer;
+      color: #26b598;
+    }
+    .icon-jibiji{
+      font-size: 18px;
     }
   }
 }
