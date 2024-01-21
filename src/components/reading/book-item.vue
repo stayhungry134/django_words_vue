@@ -26,7 +26,7 @@ let props = defineProps({
           <div class="d-flex mt-2 justify-content-between align-items-center">
             <div class="text-truncate me-3">{{ book.title_cn }}</div>
             <el-button type="primary"
-                       @click="$router.push(`/reading/pdf-reader/?name=${book.name}&local_path=${book.local_path}`)">
+                       @click="$router.push(`/reading/book-reader/?id=${book.id}`)">
               阅读
             </el-button>
           </div>
