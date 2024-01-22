@@ -170,7 +170,7 @@ const note_paragraph = (paragraph) => {
              v-for="paragraph in article.content">
           <template v-for="word in paragraph">
             <span class="word"
-                  @click="show_word_card($event, word)">{{ word }}&nbsp;</span>
+                  @click="show_word_card($event, word)">{{ word }}</span>&ensp;
           </template>
           <el-tooltip content="复制">
             <i class="iconfont icon-fuzhi mx-1" @click="copy_paragraph(paragraph)"></i>
@@ -238,17 +238,12 @@ const note_paragraph = (paragraph) => {
 
     .word {
       cursor: pointer;
-      white-space: pre-wrap;
     }
 
     .word:hover {
       background: #26b598;
       color: #fff;
       border-radius: 4px;
-    }
-
-    .today-word {
-      color: #ea7a6d;
     }
     .iconfont{
       font-size: 20px;
