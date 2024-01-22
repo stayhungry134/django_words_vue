@@ -1,7 +1,7 @@
 // bootstrap
 @import "~bootstrap/dist/css/bootstrap.min.css";
 // 阿里云字体库
-@import url('//at.alicdn.com/t/c/font_4376427_ufontygslae.css');
+@import url('//at.alicdn.com/t/c/font_4376427_9wyf93v4agi.css');
 // elementUI
 @import "element-plus/dist/index.css";
 
@@ -14,4 +14,7 @@ img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+.el-main{
+    padding: 0!important;
 }
