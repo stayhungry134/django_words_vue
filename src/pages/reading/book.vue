@@ -46,7 +46,7 @@ watch(current_page, (new_val) => {
 
 <template>
 
-  <div class="container-xl mx-auto row">
+  <div class="container-xl mx-auto row my-5">
     <div class="col-xl-10 col-12">
       <div v-if="book_pager" class=" d-flex flex-wrap justify-content-between overflow-auto">
         <book-item v-for="book in book_pager.items"

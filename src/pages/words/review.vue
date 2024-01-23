@@ -94,7 +94,7 @@ const reset_word = (word) => {
 </script>
 
 <template>
-  <div class="practice container">
+  <div class="practice container my-5">
     <div class="word-tab w-75 mx-auto d-flex justify-content-between align-items-center px-4">
       <div>{{ today }}</div>
 
