@@ -54,7 +54,7 @@ watch(current_page, (new_val) => {
 </script>
 
 <template>
-  <div class="container-xl mx-auto row">
+  <div class="container-xl mx-auto row my-5">
     <div class="col-xl-9 col-12">
       <div v-if="magazine_pager" class=" d-flex flex-wrap justify-content-between overflow-auto">
         <magazine-item v-for="magazine in magazine_pager.items"
