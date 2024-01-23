@@ -15,7 +15,7 @@ let props = defineProps({
 
 <template>
   <div v-if="book" class="book-item mx-4 mb-5">
-    <el-card :body-style="{ padding: '0px' }">
+    <el-card :body-style="{ padding: '0px'}" class="position-relative">
       <el-image v-if="book.cover" class="image"
                 :src="book.cover"
                 fit="cover"
@@ -32,6 +32,9 @@ let props = defineProps({
           </div>
         </div>
       </div>
+      <div class="percentage all-center position-absolute text-white">
+        {{ book.completion_percentage }}%
+      </div>
     </el-card>
 
     <el-image-viewer @close="close_viewer" :url-list="[book.image]" v-if="show_image_viewer"/>
@@ -41,8 +44,16 @@ let props = defineProps({
 <style scoped lang="scss">
 .book-item {
   width: 250px;
-
   .image {
+  }
+  .percentage{
+    right: 15px;
+    top: 0;
+    width: 30px;
+    height: 35px;
+    font-size: 14px;
+    z-index: 9;
+    background: url("@/assets/icon/bookmark.png") no-repeat center center / 100% 100%;
   }
 }
 </style>
