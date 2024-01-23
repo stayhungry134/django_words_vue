@@ -2,6 +2,7 @@
 import {onMounted, ref, reactive, watch} from 'vue'
 import {useRoute} from "vue-router";
 import WordCard from "@/components/reading/word-card.vue";
+import {ElMessage} from "element-plus";
 
 /** 书籍相关 */
 let book = ref(null)
@@ -12,7 +13,7 @@ let chapter = ref(null)
 const get_book = async () => {
   book.value = await fetch(`/word_api/reading/book/?id=${book_id.value}`)
       .then(response => response.json())
-  current_chapter.value = book.value.chapters.filter(chapter => chapter['is_finished'] = 'false')[0].id
+  current_chapter.value = book.value.chapters.filter(chapter => chapter['is_finished'] === false)[0].id
 }
 // 获取章节
 const get_chapter = async (chapter_id) => {
@@ -32,7 +33,22 @@ watch(current_chapter, (new_val) => {
 })
 // 提交章节
 const submit_chapter = async (chapter_id) => {
-  console.log(chapter_id)
+  let response = await fetch('/word_api/reading/book/chapter/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      chapter_id: chapter_id,
+    })
+  }).then(response => response.json())
+  if (response.msg === 'success'){
+    ElMessage({
+      message: '恭喜你完成这篇文章的阅读',
+      type: 'success'
+    })
+    await get_book()
+  }
 }
 
 /** 点击单词显示单词卡片 */
@@ -88,7 +104,8 @@ let show_description = ref(false)
                 @click="current_chapter=chapter.id">
               <el-tooltip :content="chapter.title_cn"
                           placement="top">
-                <div class="chapter-title text-truncate">
+                <div class="chapter-title text-truncate"
+                     :class="{'chapter-finished': chapter.is_finished}">
                   <div class="text-truncate">
                     {{ chapter.index + 1 }}.{{ chapter.title_cn }}
                   </div>
@@ -97,8 +114,12 @@ let show_description = ref(false)
                   </div>
                 </div>
               </el-tooltip>
-
-              <div class="chapter-length flex-shrink-0 ms-2">{{ chapter.length }}词</div>
+              <div class="chapter-length flex-shrink-0 ms-2">
+                <div>
+                  {{ chapter.length }} 词
+                </div>
+                <div v-if="chapter.is_finished">已阅读</div>
+              </div>
             </li>
           </ul>
         </div>
@@ -140,7 +161,6 @@ let show_description = ref(false)
       </el-main>
       <el-aside width="200px">
         <div class="book px-0 position-fixed">
-          <!--      TODO 点击返回书桌-->
           <div class="back-desktop px-3" @click="$router.push('/reading/book')"><i class="iconfont icon-fanhui d-inline-block me-3"></i>返回书桌</div>
           <div class="book-info mx-auto w-75">
             <img class="cover mt-5" :src="book.cover" alt="book.name">
@@ -196,6 +216,9 @@ let show_description = ref(false)
       color: #999999;
     }
 
+    &-finished {
+      color: #999999;
+    }
   }
 }
 
