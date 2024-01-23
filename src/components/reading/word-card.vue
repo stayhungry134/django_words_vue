@@ -55,7 +55,6 @@ function play_audio(type, word) {
 
 <style scoped lang="scss">
 .word-card {
-  position: absolute;
   z-index: 3;
   width: 450px;
   -webkit-box-shadow: 0 2px 10px 0 rgba(170, 170, 170, 0.5);

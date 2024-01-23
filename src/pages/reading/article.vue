@@ -5,6 +5,7 @@ import {useRoute} from "vue-router";
 import ArticleItem from "@/components/reading/article-item.vue";
 import { ElMessage } from "element-plus";
 import {scrollToTop} from "@/assets/ts/utils";
+import TransCard from "@/components/reading/trans-card.vue";
 
 /** 请求文章*/
 // 请求文章列表
@@ -101,13 +102,17 @@ const word_card = reactive({
   },
   show: false,
 })
-const show_word_card = (e, word) => {
-  // 获取当前文章的位置
+// 获取当前文章的位置
+const get_current_article_position = () => {
   let article_rect = current_article.value.getBoundingClientRect()
   current_article_position = {
     top: article_rect.top,
     left: article_rect.left,
   }
+}
+const show_word_card = (e, word) => {
+  // 获取当前文章的位置
+  get_current_article_position()
   // 获取点击单词的位置
   let word_rect = e.target.getBoundingClientRect()
   let top = word_rect.top - current_article_position.top + word_rect.height + 10
@@ -128,9 +133,25 @@ const copy_paragraph = (paragraph) => {
     type: 'success'
   })
 }
+// 翻译卡片
+const trans_card = reactive({
+  word: '',
+  style: {
+    top: '100px',
+    left: '0'
+  },
+  show: false,
+})
 // 翻译段落
-const translate_paragraph = (paragraph) => {
-  console.log(paragraph.join(' '))
+let sentence = ref('')
+const translate_paragraph = async (e, paragraph) => {
+  // 获取当前文章的位置
+  get_current_article_position()
+  console.log(e.target.getBoundingClientRect())
+  let top = e.target.getBoundingClientRect().top - current_article_position.top + 30
+  trans_card.style.top = `${top}px`
+  trans_card.show = true
+  sentence.value = paragraph.join(' ')
 }
 // 段落做笔记
 const note_paragraph = (paragraph) => {
@@ -172,13 +193,15 @@ const note_paragraph = (paragraph) => {
             <span class="word"
                   @click="show_word_card($event, word)">{{ word }}</span>&ensp;
           </template>
-          <el-tooltip content="复制">
-            <i class="iconfont icon-fuzhi mx-1" @click="copy_paragraph(paragraph)"></i>
+          <el-tooltip content="复制" placement="top">
+            <i class="iconfont icon-fuzhi mx-1"  @click="copy_paragraph(paragraph)"></i>
           </el-tooltip>
-          <el-tooltip content="翻译">
-            <i class="iconfont icon-fanyi mx-1" @click="translate_paragraph(paragraph)"></i>
+          <el-tooltip content="翻译" placement="top">
+            <i class="iconfont icon-fanyi mx-1"
+               @mouseleave="trans_card.show = false"
+               @mouseenter="translate_paragraph($event, paragraph)"></i>
           </el-tooltip>
-          <el-tooltip content="记笔记">
+          <el-tooltip content="记笔记" placement="top">
             <i class="iconfont icon-jibiji mx-1" @click="note_paragraph(paragraph)"></i>
           </el-tooltip>
         </div>
@@ -193,6 +216,11 @@ const note_paragraph = (paragraph) => {
                  v-show="word_card.show"
                  :style="word_card.style"
                  :word="word_card.word"></word-card>
+<!--      翻译卡片-->
+      <trans-card class="trans-card position-absolute start-50 w-75"
+                  v-show="trans_card.show"
+                  :style="trans_card.style"
+                  :sentence="sentence"></trans-card>
     </div>
     <!--    其他文章-->
     <div v-if="articles_page" class="col-4 ps-4 d-xl-block d-none">
@@ -253,6 +281,10 @@ const note_paragraph = (paragraph) => {
     .icon-jibiji{
       font-size: 18px;
     }
+  }
+
+  .trans-card{
+    transform: translate(-50%, 0);
   }
 }
 
