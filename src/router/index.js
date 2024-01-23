@@ -60,6 +60,11 @@ const routes = [{
                     name: 'Book',
                 },
                 {
+                    path: 'book-reader',
+                    component: () => import('@/pages/reading/book-reader.vue'),
+                    name: 'BookReader',
+                },
+                {
                     path: 'magazine',
                     component: () => import('@/pages/reading/magazine.vue'),
                     name: 'Magazine',
