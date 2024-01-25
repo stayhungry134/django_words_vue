@@ -78,6 +78,7 @@ watch(current_page, (new_val) => {
     </div>
     <div v-if="categories.length" class="col-xl-3 d-none d-xl-block">
       <classify-tab :categories="categories"
+                    @update_category="current_category = $event"
                     :current_category="current_category">
       </classify-tab>
     </div>

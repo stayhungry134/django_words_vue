@@ -20,7 +20,7 @@ let props = defineProps({
         <div v-for="category in categories"
              :key="category.id"
              class="category-item my-2 ps-2"
-             @click="current_category = category.id"
+             @click="$emit('update_category', category.id)"
              :class="{'active': current_category === category.id}">
           {{ category.name }}
         </div>
