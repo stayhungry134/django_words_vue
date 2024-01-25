@@ -25,7 +25,7 @@ let book_pager = ref(null)
 let current_page = ref(1)
 // 请求书籍
 const get_books = async (category=null, page=current_page.value) => {
-  book_pager.value = await fetch(`/word_api/reading/books?category=${category}&page=${page}`)
+  book_pager.value = await fetch(`/word_api/reading/books?category_id=${category}&page=${page}`)
       .then(response => response.json())
 }
 onMounted(() => {
