@@ -1,4 +1,5 @@
 <script setup>
+import {reactive} from "vue";
 import {useColorStore} from "@/store/counter";
 
 // 设置背景色
@@ -7,6 +8,24 @@ function change_theme(item) {
   color.update_theme_color(item.theme_color)
   color.update_tab_color(item.tab_color)
 }
+const tabs = reactive([
+  {
+    name: 'Home',
+    path: '/'
+  },
+  {
+    name: 'Word',
+    path: '/word'
+  },
+  {
+    name: 'Reading',
+    path: '/reading'
+  },
+  {
+    name: 'About',
+    path: ''
+  },
+])
 
 </script>
 
@@ -14,10 +33,9 @@ function change_theme(item) {
   <div class="header container-fluid d-none d-xl-block mb-5 position-fixed top-0 start-0" :style="{backgroundColor: color.theme_color, color: color.tab_color}">
     <div class="container h-100 d-flex justify-content-between align-items-center">
       <ul class="tab row nav nav-pills w-75 h-100">
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/')">Home</li>
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/word')">Word</li>
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('/reading')">Article</li>
-        <li class="col-1 nav-item h-100 p-0 text-center" @click="$router.push('')">About</li>
+        <li class="col-1 nav-item h-100 p-0 text-center"
+            v-for="tab in tabs"
+            @click="$router.push(tab.path)">{{ tab.name }}</li>
       </ul>
       <div class="change_theme dropdown">
         <button class="btn dropdown-toggle text-white"
