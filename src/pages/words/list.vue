@@ -116,9 +116,11 @@ let current_dict = ref('youdao')
                 <template v-if="current_dict==='collins'">
                   <div v-for="trans in record.word.collins"
                        class="text-muted d-flex mt-1">
-                    <span class="me-1 flex-shrink-0 color-77"
-                          v-if="trans.tran_entry[0].pos_entry"
-                          :title="trans.tran_entry[0].pos_entry.pos_tips">{{ trans.tran_entry[0].pos_entry.pos }}</span>
+                    <el-tooltip v-if="trans.tran_entry[0].pos_entry"
+                                :content="trans.tran_entry[0].pos_entry.pos_tips"
+                                placement="top">
+                      <span class="me-1 flex-shrink-0 color-77">{{ trans.tran_entry[0].pos_entry.pos }}</span>
+                    </el-tooltip>
                     <span v-html="trans.tran_entry[0].tran"></span>
                   </div>
                 </template>
