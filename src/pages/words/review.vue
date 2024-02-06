@@ -1,7 +1,7 @@
 <script setup>
 import PracticeWordCard from "@/components/word/practice-word-card.vue";
-import {onMounted, ref} from "vue";
-import {ElMessage} from "element-plus";
+import { onMounted, ref, unref } from "vue";
+import { ElMessage } from "element-plus";
 
 /** 菜单模块*/
 // 获取今天的日期并格式化
@@ -20,6 +20,14 @@ const change_typing = () => {
 let is_meaning = ref(true)
 const change_meaning = () => {
   is_meaning.value = !is_meaning.value
+}
+// 发音选项
+let pronounce_btn = ref()
+let pronounce_pop = ref()
+let pronounce = ref('us')
+// 选择发音
+const show_pronounce_choice = () => {
+  unref(pronounce_pop)?.popperRef?.delayHide?.()
 }
 
 
@@ -113,8 +121,25 @@ const reset_word = (word) => {
                @click="change_meaning"></i>
           </el-tooltip>
           <el-tooltip content="发音选项">
-            <i class="iconfont icon-laba-xianxing"></i>
+            <i ref="pronounce_btn"
+               @click="show_pronounce_choice"
+               class="iconfont icon-laba-xianxing"></i>
           </el-tooltip>
+          <el-popover
+              ref="popover_ref"
+              :virtual-ref="pronounce_btn"
+              trigger="click"
+              title="音效设置"
+              virtual-triggering
+          >
+            <div class="d-flex">
+              <div class="label">发音口音</div>
+              <el-select v-model="pronounce">
+                <el-option label="美音" value="us"/>
+                <el-option label="英音" value="uk"/>
+              </el-select>
+            </div>
+          </el-popover>
         </div>
         <div>
           <el-tooltip content="设置">
