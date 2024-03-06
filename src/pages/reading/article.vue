@@ -80,7 +80,8 @@ const submit_reading = async (id) => {
       message: '恭喜你完成这篇文章的阅读',
       type: 'success'
     })
-    get_article()
+    get_article(articles_page.value?.items[1].id)
+    get_article_list()
     scrollToTop()
   }
 }
