@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, reactive, computed, watch} from "vue";
+import {onMounted, ref, reactive, watch} from "vue";
 import WordCard from "@/components/reading/word-card.vue";
 import {useRoute} from "vue-router";
 import ArticleItem from "@/components/reading/article-item.vue";
