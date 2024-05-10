@@ -65,8 +65,15 @@ let handle_keydown = (e) => {
   }
   if (e.key.match(/^[a-zA-Z,\-'\s]$/)) {
     if (e.key === remain.value[0]){
-      user_input.value += e.key
-      remain.value = remain.value.slice(1)
+      // 如果是空格，就使用 _ 替代
+      if (e.key === ' ') {
+        user_input.value += '_'
+        remain.value = remain.value.slice(1)
+      }
+      else{
+        user_input.value += e.key
+        remain.value = remain.value.slice(1)
+      }
     }
     // 如果拼错，就重置单词
     else{
@@ -200,6 +207,7 @@ const play_error_audio = () => {
     font-size: 48px;
     color: #5b5b5b;
     letter-spacing: 0.5rem;
+    white-space: pre-wrap;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
     .icon-laba-xianxing{
       font-size: 2rem;
