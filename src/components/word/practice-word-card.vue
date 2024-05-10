@@ -63,7 +63,7 @@ let handle_keydown = (e) => {
     }
     return
   }
-  if (e.key.match(/^[a-zA-Z,\-']$/)) {
+  if (e.key.match(/^[a-zA-Z,\-'\s]$/)) {
     if (e.key === remain.value[0]){
       user_input.value += e.key
       remain.value = remain.value.slice(1)
