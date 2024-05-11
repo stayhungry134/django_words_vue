@@ -61,12 +61,7 @@ const next_word = () =>{
   }
   now_word.value = word_list.value[Math.floor(Math.random() * word_list.value.length)].word
   // 如果单词是第一次记忆，就显示原单词
-  if (word_memory_map.value[now_word.value.word] === 0){
-    is_typing.value = false
-  }
-  else {
-    is_typing.value = true
-  }
+  is_typing.value = word_memory_map.value[now_word.value.word] !== 0;
   // 如果小于5个还有下一页的话就获取单词
   if (word_list.value.length <= 5 && word_pager.value.has_next){
     get_word()
