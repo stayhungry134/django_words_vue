@@ -201,6 +201,7 @@ const play_error_audio = () => {
   .disappear{
     opacity: 0;
     transform: translateY(-100%);
+    z-index: -1;
   }
   //单词
   .word{
