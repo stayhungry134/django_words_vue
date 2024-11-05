@@ -5,7 +5,7 @@ import path from 'path'
 // 本地调试时，将api_online设置为false
 let api_online = true
 
-const online_url = 'http://word.stayhungry134.com:8000'
+const online_url = 'http://word.ibiren.cn:8000'
 // const local_url = 'http://192.168.2.12:8000'
 const local_url = 'http://127.0.0.1:8001'
 
