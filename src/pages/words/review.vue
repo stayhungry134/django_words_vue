@@ -51,6 +51,7 @@ const get_word = async () => {
 onMounted(async () => {
   await get_word()
   now_word.value = word_list.value[0].word
+  await get_word_memory()
 })
 
 // 下一个单词
@@ -101,12 +102,21 @@ const reset_word = (word) => {
   word_memory_map.value[word] = 0
 }
 
+// 单词记忆统计
+let remind_sts = ref(null)
+const get_word_memory = async () => {
+  const response = await fetch('/word_api/word/remindsts/')
+  remind_sts.value = await response.json()
+}
 </script>
 
 <template>
   <div class="practice container my-5">
     <div class="word-tab w-75 mx-auto d-flex justify-content-between align-items-center px-4 z-3">
-      <div>{{ today }}</div>
+      <div class="d-flex align-items-center">
+        <div class="me-2">{{ today }}</div>
+        <div v-if="remind_sts" class="fs-6 text-coral">今日任务：<span class="text-jadeite">{{remind_sts.reminded}}</span>/{{remind_sts.total}}</div>
+      </div>
 
       <div class="d-flex">
         <div class="icon-folder"
