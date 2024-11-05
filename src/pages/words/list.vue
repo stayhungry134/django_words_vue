@@ -113,6 +113,7 @@ let current_dict = ref('youdao')
                     <span>{{ trans.tran }}</span>
                   </div>
                 </template>
+<!--                如果是艾宾浩斯-->
                 <template v-if="current_dict==='collins'">
                   <div v-for="trans in record.word.collins"
                        class="text-muted d-flex mt-1">
