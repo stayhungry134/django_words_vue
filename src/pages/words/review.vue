@@ -95,6 +95,8 @@ const submit_word = async (word) => {
   let data = await response.json()
   if (data && data.msg === 'success'){
     ElMessage.success(`${word} 已完成记忆`)
+    // 单词统计加一
+    remind_sts.value.reminded += 1
   }
 }
 // 重置单词
